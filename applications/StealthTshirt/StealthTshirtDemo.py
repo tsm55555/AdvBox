@@ -6,8 +6,11 @@ import sys
 import os
 import pdb
 
+#import tensorflow.compat.v1 as tf
+# tf.disable_v2_behavior()
+
 class Faster_YOLO:
-    fromstream = None
+    fromstream = not None
     disp_console = False
     
     weights_file = 'weights/YOLO_tiny.ckpt'
@@ -187,17 +190,17 @@ class Faster_YOLO:
                                          ' , [x,y,w,h]=[' + str(x) + ',' + str(y) + ',' + 
                                          str(int(results[i][3])) + ',' + str(int(results[i][4])) + 
                                          '], Confidence = ' + str(results[i][5]))
-                
+            # print(results[i][5])
             # draw bbox
             if self.fromstream:
-                cv2.rectangle(img_cp,(x-w,y-h),(x+w,y+h),(0,255,0),2)
+                cv2.rectangle(img_cp,(x-w,y-h),(x+w,y+h),(0,255,0),3)
                 cv2.rectangle(img_cp,(x-w,y-h-20),(x+w,y-h),(125,125,125),-1)
                 
                 # modify showing text 
-                cv2.putText(img_cp,results[i][0],  #  + ' : %.2f' % results[i][5]
+                cv2.putText(img_cp,results[i][0],    #+ ' : %.2f' % results[i][5]
                             (x-w+5,y-h-7),
                             cv2.FONT_HERSHEY_SIMPLEX,
-                            0.5,(0,0,0),1)
+                            1.0,(0,0,0),2)
 
         return img_cp
 
@@ -239,27 +242,35 @@ class Faster_YOLO:
 
     def run(self):
         if self.fromstream is not None:
+            # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) #won't work on my mac 
             cap = cv2.VideoCapture(0)
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
-            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
             video_width = int(cap.get(3))
             video_height = int(cap.get(4))
             video_fps = cap.get(5)
+            # print(video_width)
+            # print(video_height)
+            # print(video_fps)
             video_frame_num = cap.get(7)
-            imshow_scale = 1.5
+            imshow_scale = 0.8
 
-            outname = 'invisible-cloak.mp4'
-            out = cv2.VideoWriter(outname, fourcc, video_fps, (int(video_width*imshow_scale), int(video_height*imshow_scale)))
+            outname = 'invisible-cloak.avi'
+            out = cv2.VideoWriter(outname, fourcc, 10, (int(1920 * imshow_scale), int(1080 * imshow_scale)))
 
-            pdb.set_trace()
+            # pdb.set_trace()
             while(True):
+
                 # get a frame
                 ret, frame = cap.read()
                 resulted_frame = self.detect(frame)
                 h_imshow, w_imshow, _ = resulted_frame.shape
-
+                # print(h_imshow, w_imshow)
+                
                 drawed_frame = cv2.resize(resulted_frame,
-                                                 (int(w_imshow*imshow_scale), int(h_imshow*imshow_scale)))
+                                                 (int(1920 * imshow_scale), int(1080 * imshow_scale)))
                 # show a frame
                 cv2.imshow("capture", drawed_frame)
 
