@@ -1,13 +1,13 @@
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 import cv2
 import time
 import sys
 import os
 import pdb
 
-#import tensorflow.compat.v1 as tf
-# tf.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 class Faster_YOLO:
     fromstream = not None
@@ -190,14 +190,13 @@ class Faster_YOLO:
                                          ' , [x,y,w,h]=[' + str(x) + ',' + str(y) + ',' + 
                                          str(int(results[i][3])) + ',' + str(int(results[i][4])) + 
                                          '], Confidence = ' + str(results[i][5]))
-            # print(results[i][5])
             # draw bbox
             if self.fromstream:
                 cv2.rectangle(img_cp,(x-w,y-h),(x+w,y+h),(0,255,0),3)
                 cv2.rectangle(img_cp,(x-w,y-h-20),(x+w,y-h),(125,125,125),-1)
                 
                 # modify showing text 
-                cv2.putText(img_cp,results[i][0],    #+ ' : %.2f' % results[i][5]
+                cv2.putText(img_cp,results[i][0] + " : %.2f" % results[i][5],
                             (x-w+5,y-h-7),
                             cv2.FONT_HERSHEY_SIMPLEX,
                             1.0,(0,0,0),2)
@@ -242,8 +241,8 @@ class Faster_YOLO:
 
     def run(self):
         if self.fromstream is not None:
-            # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) #won't work on my mac 
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(1, cv2.CAP_DSHOW) #won't work on my mac 
+            # cap = cv2.VideoCapture(0)
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
@@ -274,7 +273,7 @@ class Faster_YOLO:
                 # show a frame
                 cv2.imshow("capture", drawed_frame)
 
-                out.write(drawed_frame)
+                # out.write(drawed_frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
