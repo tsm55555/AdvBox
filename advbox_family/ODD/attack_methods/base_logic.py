@@ -256,7 +256,7 @@ class ODD_logic(with_metaclass(ABCMeta, object)):
         user_input = "Yes"
         save_name = 'HD_sticker.jpg'
         while user_input!="No" and self.Do_you_want_ad_sticker is True:
-            user_input = eval(input("Do you want an invisible clothe? Yes/No:"))
+            # user_input = eval(input("Do you want an invisible clothe? Yes/No:"))
             if user_input=="Yes":
                 print("Ok!")
                 if logo_mask is not None and resized_logo_mask is not None:
@@ -336,7 +336,7 @@ class ODD_logic(with_metaclass(ABCMeta, object)):
         """
         make a mask where adversarial perturbed area
         """
-        pdb.set_trace()
+        # pdb.set_trace()
         for i in range(xmin,xmax):
             for j in range(ymin,ymax):
                 mask[j][i] = 1

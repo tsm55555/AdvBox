@@ -19,3 +19,5 @@ build
 thirdparty
 conf/*.conf
 conf/*.ini
+.DS_Store
+YOLO_tiny.ckpt

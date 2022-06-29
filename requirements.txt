@@ -6,7 +6,7 @@ certifi==2018.8.24
 cycler==0.10.0
 enum34==1.1.6
 funcsigs==1.0.2
-futures==3.2.0
+futures==3.1.1
 gast==0.2.0
 graphpipe==1.0.4
 grpcio==1.15.0
@@ -16,12 +16,14 @@ Keras-Applications==1.0.4
 Keras-Preprocessing==1.0.2
 kiwisolver==1.0.1
 Markdown==2.6.11
-matplotlib==2.2.3
+# matplotlib==2.2.3
 mock==2.0.0
 numpy==1.14.5
 pbr==4.2.0
 Pillow==5.2.0
 protobuf==3.6.1
+opencv-python
+
 pyparsing==2.2.0
 python-dateutil==2.7.3
 pytz==2018.5

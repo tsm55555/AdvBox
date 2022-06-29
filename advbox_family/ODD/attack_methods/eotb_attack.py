@@ -10,7 +10,8 @@ from past.utils import old_div
 import numpy as np
 import cv2
 import tensorflow as tf
-
+# import tensorflow.compat.v1 as tf
+# tf.disable_v2_behavior()
 import time
 import os
 
@@ -265,10 +266,11 @@ class EOTB_attack(ODD_logic):
         if self.disp_console : print('Elapsed time : ' + strtime + ' secs' + '\n')
         print("Attack finished!")
 
-        result = self._interpret_output(net_output[0][0])
+        result = self.interpret_output(net_output[0][0])
         self.show_results(img_with_logo, result)
         
         return net_output[2][0]
+        
 
 
     # add logo on input
@@ -320,7 +322,7 @@ class EOTB_attack(ODD_logic):
         else : intersection =  tb*lr
         return old_div(intersection, (box1[2]*box1[3] + box2[2]*box2[3] - intersection))
     
-    def _interpret_output(self, output):
+    def interpret_output(self, output):
         probs = np.zeros((7,7,2,20))
         class_probs = np.reshape(output[0:980],(7,7,20))
         scales = np.reshape(output[980:1078],(7,7,2))

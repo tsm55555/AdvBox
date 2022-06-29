@@ -5,6 +5,7 @@ import time
 import sys
 import os
 import pdb
+import matplotlib.pyplot as plt
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -260,6 +261,7 @@ class Faster_YOLO:
             out = cv2.VideoWriter(outname, fourcc, 10, (int(1920 * imshow_scale), int(1080 * imshow_scale)))
 
             # pdb.set_trace()
+            count = 396
             while(True):
 
                 # get a frame
@@ -272,8 +274,13 @@ class Faster_YOLO:
                                                  (int(1920 * imshow_scale), int(1080 * imshow_scale)))
                 # show a frame
                 cv2.imshow("capture", drawed_frame)
+                # path = "D:/person_images" 
 
-                # out.write(drawed_frame)
+                # uncomment to save catched images
+                # drawed_frame = cv2.cvtColor(drawed_frame, cv2.COLOR_BGR2RGB)
+                # plt.imsave("./person_images/person" + str(count) + ".jpg", drawed_frame)
+                # count += 1
+                out.write(drawed_frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
